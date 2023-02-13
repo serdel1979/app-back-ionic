@@ -18,19 +18,27 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<IdentityUser, IdentityRole>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+
+            services.AddAuthorization(opciones =>
+            {
+                opciones.AddPolicy("EsAdmin", politica => politica.RequireClaim("esAdmin"));
+            });
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefoultConnection")));
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            //}).AddGoogle(options =>
-            //{
-            //    options.ClientId = "402562450789-0aau8bfeu40ef95tg4c1c8trnrjoblo5.apps.googleusercontent.com";
-            //    options.ClientSecret = "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";
-            //});
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            }).AddGoogle(options =>
+            {
+                options.ClientId = "402562450789-0aau8bfeu40ef95tg4c1c8trnrjoblo5.apps.googleusercontent.com";
+                options.ClientSecret = "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";
+            });
 
             services.AddControllers();
 
@@ -50,17 +58,6 @@ namespace WebApplication1
 
 
             services.AddAutoMapper(typeof(StartUp));
-
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-            services.AddAuthorization(opciones =>
-            {
-                opciones.AddPolicy("EsAdmin", politica => politica.RequireClaim("esAdmin"));
-            });
-
-
-
 
 
             services.AddCors(options =>
@@ -89,7 +86,7 @@ namespace WebApplication1
 
             app.UseCors("AllowAll");
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
             //app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
