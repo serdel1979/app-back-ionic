@@ -87,7 +87,7 @@ namespace WebApplication1
             app.UseCors("AllowAll");
 
             app.UseAuthorization();
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
