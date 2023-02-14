@@ -26,15 +26,20 @@ namespace AppMov.Controllers
         [HttpPost("validar")]
         public async Task<ActionResult> Validar(CredencialGoogle credencial)
         {
-            var googleUser = await GoogleJsonWebSignature.ValidateAsync(credencial.idToken, new GoogleJsonWebSignature.ValidationSettings()
+            try
             {
-                Audience = new[] { "402562450789-0aau8bfeu40ef95tg4c1c8trnrjoblo5.apps.googleusercontent.com" }
-            });
+                var googleUser = await GoogleJsonWebSignature.ValidateAsync(credencial.idToken, new GoogleJsonWebSignature.ValidationSettings()
+                {
+                    Audience = new[] { "402562450789-0aau8bfeu40ef95tg4c1c8trnrjoblo5.apps.googleusercontent.com" }
+                });
 
-            Console.WriteLine(googleUser);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
 
-            
-            return Ok();
         }
 
 
