@@ -1,4 +1,5 @@
 ﻿using AppMov;
+using AppMov.Filter;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,10 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors();
+
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -44,6 +49,10 @@ namespace WebApplication1
 
 
 
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<AuthorizationHeaderFiltro>();
+            });
 
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddJwtBearer(opciones => opciones.TokenValidationParameters = new TokenValidationParameters
@@ -60,21 +69,20 @@ namespace WebApplication1
             services.AddAutoMapper(typeof(StartUp));
 
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll",
-                builder =>
-                {
-                    builder.WithOrigins("*")        // AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
-                });
-            });
+            
 
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseCors(options =>
+            {
+                options.WithOrigins("*");
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -84,7 +92,7 @@ namespace WebApplication1
 
             app.UseRouting();
 
-            app.UseCors("AllowAll");
+           
 
             app.UseAuthorization();
             app.UseAuthentication();

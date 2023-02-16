@@ -42,6 +42,20 @@ namespace AppMov.Controllers
 
         }
 
+        class UnObjeto
+        {
+            public string nombre { get; set; }
+        }
+
+        [HttpGet("test")]
+        public async Task<ActionResult> Prueba()
+        {
+            var obj = new UnObjeto();
+            obj.nombre = "Todo ok";
+
+            return Ok(obj);
+        }
+
 
 
     }
