@@ -1,6 +1,8 @@
 ﻿using AppMov.DTO;
 using AppMov.Filter;
 using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -49,6 +51,8 @@ namespace AppMov.Controllers
             public string nombre { get; set; }
         }
 
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("test")]
         public async Task<ActionResult> Prueba()
         {
