@@ -1,8 +1,9 @@
 ﻿using AppMov.DTO;
+using AppMov.Filter;
 using Google.Apis.Auth;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace AppMov.Controllers
 {
@@ -21,6 +22,7 @@ namespace AppMov.Controllers
             this.userManager = userManager;
             this.context = context;
             this.configuration = configuration;
+            
         }
 
         [HttpPost("validar")]

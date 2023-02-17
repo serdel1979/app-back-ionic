@@ -12,10 +12,7 @@ namespace AppMov.Filter
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            // Obtener el token de Google del encabezado
             string token = context.HttpContext.Request.Headers["x-google-token"];
-
-            // Verifique el token aquí usando Google.Apis.Auth
             ValidateTokenAsync(token, context);
         }
 

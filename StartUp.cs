@@ -3,6 +3,7 @@ using AppMov.Filter;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication1
 {
@@ -45,14 +46,17 @@ namespace WebApplication1
                 options.ClientSecret = "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";
             });
 
-            services.AddControllers();
-
-
-
             services.AddMvc(options =>
             {
                 options.Filters.Add<AuthorizationHeaderFiltro>();
             });
+
+
+            services.AddControllers();
+
+
+
+
 
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddJwtBearer(opciones => opciones.TokenValidationParameters = new TokenValidationParameters
