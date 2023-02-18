@@ -56,6 +56,8 @@ namespace AppMov.Controllers
         [HttpGet("test")]
         public async Task<ActionResult> Prueba()
         {
+            var headers = Request.Headers["x-google-token"];
+            Console.WriteLine(headers);
             var obj = new UnObjeto();
             obj.nombre = "Todo ok";
 
