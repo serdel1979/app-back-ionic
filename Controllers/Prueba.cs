@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AppMov.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -11,14 +12,26 @@ namespace AppMov.Controllers
     {
 
 
-
-
-
-        [HttpGet("ver")]
-        public async Task<ActionResult> Get()
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult> Recibir([FromBody] string imageBase64)
         {
 
-            return Ok("Todo ok...");
+            if (string.IsNullOrEmpty(imageBase64))
+            {
+                return BadRequest("No image supplied");
+            }
+
+            byte[] imageBytes = Convert.FromBase64String(imageBase64);
+
+            Console.WriteLine(imageBytes.Length);
+
+            // Guardar imagen en bd
+
+            return Ok("Image saved successfully");
         }
+
+
+
     }
 }

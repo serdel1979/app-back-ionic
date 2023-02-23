@@ -2,6 +2,7 @@
 using AppMov.Filter;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -26,6 +27,10 @@ namespace WebApplication1
 
             services.AddCors();
 
+            services.Configure<FormOptions>(options =>
+            {
+                options.KeyLengthLimit = int.MaxValue;
+            });
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
